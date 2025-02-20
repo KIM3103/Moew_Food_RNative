@@ -7,7 +7,7 @@ export default function DishRow({ item }: any) {
     return (
         <View className='flex-row items-center bg-white p-3 rounded-3xl shadow-2xl mx-2'
             style={{ borderColor: themeColor.bgColor(.2), borderWidth: 1, marginBottom: 5 }}>
-            <Image source={item.image} className='rounded-3xl' style={{ height: 100, width: 100 }} />
+            <Image source={{ uri: `http://10.106.21.180:8080${item.image}` }} className='rounded-3xl' style={{ height: 100, width: 100 }} />
             <View className='flex flex-1 space-y-3'>
                 <View className='pl-3'>
                     <Text className='text-xl'>{item.name}</Text>

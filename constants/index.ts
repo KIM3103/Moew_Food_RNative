@@ -101,21 +101,21 @@ export const featured = [
                         name: 'Chocolate Cake',
                         description: 'Rich and moist chocolate cake',
                         price: 8,
-                        image: require('../assets/images/restaurants/MenuComBinhDan.jpg')
+                        image: require('../assets/images/dishes/hoanhThanhChien.jpeg')
                     },
                     {
                         id: 5,
                         name: 'Strawberry Cheesecake',
                         description: 'Creamy and fruity delight',
                         price: 9,
-                        image: require('../assets/images/restaurants/MenuComBinhDan.jpg')
+                        image: require('../assets/images/dishes/cheeseFried.jpeg')
                     },
                     {
                         id: 6,
                         name: 'Macarons',
                         description: 'French classic with various flavors',
                         price: 12,
-                        image: require('../assets/images/restaurants/MenuComBinhDan.jpg')
+                        image: require('../assets/images/dishes/banhTacoz.jpeg')
                     },
                 ],
             },
@@ -143,21 +143,21 @@ export const featured = [
                         name: 'Avocado Salad',
                         description: 'Fresh avocado with greens and vinaigrette',
                         price: 11,
-                        image: require('../assets/images/restaurants/menuDaDangMon.webp')
+                        image: require('../assets/images/dishes/xienQue.jpeg')
                     },
                     {
                         id: 8,
                         name: 'Quinoa Bowl',
                         description: 'High-protein bowl with vegetables',
                         price: 13,
-                        image: require('../assets/images/restaurants/menuDaDangMon.webp')
+                        image: require('../assets/images/dishes/nuoiSotCaChua.jpeg')
                     },
                     {
                         id: 9,
                         name: 'Smoothie',
                         description: 'Refreshing blend of fruits and yogurt',
                         price: 7,
-                        image: require('../assets/images/restaurants/menuDaDangMon.webp')
+                        image: require('../assets/images/dishes/cheeseFried.jpeg')
                     },
                 ],
             },

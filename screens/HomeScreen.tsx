@@ -1,14 +1,32 @@
 import { View, Text, TextInput, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import * as Icon from "react-native-feather";
 import { themeColor } from '@/theme';
 import Categories from '@/components/Categories';
 import FeaturedRow from '@/components/FeaturedRow';
-import { featured } from '@/constants';
+// import { featured } from '@/constants';
+import { useAtom } from 'jotai';
+import { productsAtom } from '@/store';
 
 export default function HomeScreen() {
+    const [products, setProducts] = useAtom(productsAtom);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`${process.env.URL_API}/api/products`);
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error("Lỗi khi lấy products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
     return (
         <SafeAreaView className='bg-white flex-1'>
             <StatusBar style="dark" />
@@ -38,7 +56,7 @@ export default function HomeScreen() {
                 {/* Featured */}
                 <View className='mt-5'>
                     {
-                        featured.map((item, index) => {
+                        products.map((item, index) => {
                             return (
                                 <FeaturedRow
                                     key={index}
