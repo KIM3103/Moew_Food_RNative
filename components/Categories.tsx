@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 // import { categories } from '@/constants';
 import { useAtom } from 'jotai';
 import { categoriesAtom } from '@/store';
+import { API_URL } from '@env';
 
 export default function Categories() {
     const [activeCategory, setActiveCategory] = React.useState<string | null>(null);
@@ -12,7 +13,7 @@ export default function Categories() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch(`${process.env.URL_API}/api/categories`);
+                const response = await fetch(`${API_URL}/api/categories`);
                 const data = await response.json();
                 setCategories(data);
             } catch (error) {
@@ -40,7 +41,7 @@ export default function Categories() {
                         <View key={index} className='flex justify-between items-center mr-6'>
                             <TouchableOpacity onPress={() => setActiveCategory(category._id)}
                                 className={'p-1 rounded-full shadow bg-gray-200' + btnClass}>
-                                <Image style={{ width: 45, height: 45 }} source={{ uri: `${process.env.URL_API}${category.image}` }} />
+                                <Image style={{ width: 45, height: 45 }} source={{ uri: `${API_URL}${category.image}` }} />
                             </TouchableOpacity>
                             <Text className={'text-sm' + textClass}>{category.name}</Text>
                         </View>

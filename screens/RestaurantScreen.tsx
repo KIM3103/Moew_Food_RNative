@@ -4,6 +4,7 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import * as Icon from "react-native-feather";
 import { themeColor } from '@/theme';
 import DishRow from '@/components/DishRow';
+import { API_URL } from '@env';
 
 type Params = {
     name: string;
@@ -30,7 +31,7 @@ export default function RestaurantScreen() {
         <View className='bg-white h-screen'>
             <ScrollView>
                 <View className='relative'>
-                    {item && <Image source={{ uri: `http://10.106.21.180:8080${item.image}` }} className='w-full h-64' />}
+                    {item && <Image source={{ uri: `${API_URL}${item.image}` }} className='w-full h-64' />}
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         className='absolute top-10 left-4 bg-gray-50 p-2 rounded-full shadow'>

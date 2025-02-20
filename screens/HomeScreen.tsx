@@ -9,6 +9,7 @@ import FeaturedRow from '@/components/FeaturedRow';
 // import { featured } from '@/constants';
 import { useAtom } from 'jotai';
 import { productsAtom } from '@/store';
+import { API_URL } from '@env';
 
 export default function HomeScreen() {
     const [products, setProducts] = useAtom(productsAtom);
@@ -16,7 +17,7 @@ export default function HomeScreen() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${process.env.URL_API}/api/products`);
+                const response = await fetch(`${API_URL}/api/products`);
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
