@@ -19,7 +19,7 @@ export type Restaurant = {
     address: string;
     stars: number;
     reviews: string;
-    category: string;
+    categories: string[]; // Cập nhật từ category thành categories
     dishes: Dish[];
 };
 
@@ -35,7 +35,6 @@ export type Category = {
     name: string;
     image: string;
 };
-
 
 // Atom lưu danh sách danh mục
 export const categoriesAtom = atom<Category[]>([])

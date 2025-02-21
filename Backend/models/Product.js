@@ -16,7 +16,7 @@ const RestaurantSchema = new mongoose.Schema({
     address: { type: String, required: true },
     stars: { type: Number, required: true },
     reviews: { type: String, required: true },
-    category: { type: String, required: true },
+    categories: [{ type: String, required: true }], // Cập nhật từ `category` thành `categories`
     dishes: [DishSchema] // Danh sách món ăn
 });
 

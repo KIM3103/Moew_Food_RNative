@@ -1,11 +1,15 @@
-import { View, Text, ScrollView, Image, Touchable, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 // import { categories } from '@/constants';
 import { useAtom } from 'jotai';
 import { categoriesAtom } from '@/store';
 import { API_URL } from '@env';
 
-export default function Categories() {
+interface CategoriesProps {
+    onSelectCategory: (categoryId: string | null) => void;
+}
+
+export default function Categories({ onSelectCategory }: CategoriesProps) {
     const [activeCategory, setActiveCategory] = React.useState<string | null>(null);
 
     const [categories, setCategories] = useAtom(categoriesAtom);
@@ -24,6 +28,10 @@ export default function Categories() {
         fetchCategories();
     }, []);
 
+    const handleCategoryPress = (categoryName: string | null) => {
+        setActiveCategory(categoryName);
+        onSelectCategory(categoryName);
+    };
 
     return (
         <View>
@@ -33,13 +41,13 @@ export default function Categories() {
                 className='overflow-visible'
                 contentContainerStyle={{ paddingHorizontal: 15 }}>
                 {categories.map((category, index) => {
-                    let isActive = category._id === activeCategory;
+                    let isActive = category.name === activeCategory;
                     let btnClass = isActive ? 'bg-gray-600' : 'bg-gray-200';
                     let textClass = isActive ? 'font-semibold text-gray-800' : 'text-gray-500';
 
                     return (
                         <View key={index} className='flex justify-between items-center mr-6'>
-                            <TouchableOpacity onPress={() => setActiveCategory(category._id)}
+                            <TouchableOpacity onPress={() => handleCategoryPress(category.name)}
                                 className={'p-1 rounded-full shadow bg-gray-200' + btnClass}>
                                 <Image style={{ width: 45, height: 45 }} source={{ uri: `${API_URL}${category.image}` }} />
                             </TouchableOpacity>
