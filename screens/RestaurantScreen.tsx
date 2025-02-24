@@ -5,6 +5,7 @@ import * as Icon from "react-native-feather";
 import { themeColor } from '@/theme';
 import DishRow from '@/components/DishRow';
 import { API_URL } from '@env';
+import CartIcon from '@/components/CartIcon';
 
 type Params = {
     name: string;
@@ -29,6 +30,7 @@ export default function RestaurantScreen() {
 
     return (
         <View className='bg-white h-screen'>
+            <CartIcon />
             <ScrollView>
                 <View className='relative'>
                     {item && <Image source={{ uri: `${API_URL}${item.image}` }} className='w-full h-64' />}

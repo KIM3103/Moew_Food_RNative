@@ -9,6 +9,7 @@ module.exports = function (api) {
             ['dotenv-import', {
                 moduleName: '@env',
                 path: '.env',
+                allowUndefined: true
             }],
         ],
         // plugins: ['module:react-native-dotenv']

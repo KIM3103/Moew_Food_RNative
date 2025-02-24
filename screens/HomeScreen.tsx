@@ -17,6 +17,7 @@ export default function HomeScreen() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredByCategory, setFilteredByCategory] = useState(products);
     const [searchResults, setSearchResults] = useState(products);
+    console.log('>>> Check env: ', API_URL);
 
     useEffect(() => {
         const fetchProducts = async () => {
