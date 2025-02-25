@@ -7,6 +7,7 @@ export type Dish = {
     description: string;
     price: string;
     image: string;
+    favorite: boolean;
 };
 
 export type Restaurant = {
@@ -36,8 +37,20 @@ export type Category = {
     image: string;
 };
 
+export type CartItem = {
+    dish: Dish;
+    quantity: number;
+};
+
 // Atom lưu danh sách danh mục
 export const categoriesAtom = atom<Category[]>([])
 
 // Atom lưu danh sách sản phẩm
 export const productsAtom = atom<Product[]>([]);
+
+// Atom lưu giỏ hàng
+export const cartAtom = atom<CartItem[]>([]);
+
+// Atom lưu danh sách yêu thích
+export const favoriteAtom = atom<Dish[]>([]);
+

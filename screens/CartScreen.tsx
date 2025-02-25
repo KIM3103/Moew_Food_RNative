@@ -4,18 +4,17 @@ import * as Icon from "react-native-feather";
 import { themeColor } from '@/theme'
 import { useNavigation } from '@react-navigation/native'
 import { useAtom } from 'jotai';
-import { productsAtom } from '@/store';
+import { cartAtom } from '@/store';
 import { API_URL } from '@env';
 
 export default function CartScreen() {
-    const [products, setProducts] = useAtom(productsAtom);
+    const [cart, setCart] = useAtom(cartAtom);
     const navigation = useNavigation<any>();
-    const restaurant = products[0].restaurants[0];
     const shippingFee = 50000;
 
     // Tính tổng giá của các món ăn trong giỏ hàng
-    const totalPrice = restaurant.dishes.reduce((total, dish) => {
-        return total + parseInt(dish.price.replace(/[^0-9]/g, '')) * 2; // Giả sử số lượng là 2
+    const totalPrice = cart.reduce((total, cartItem) => {
+        return total + parseInt(cartItem.dish.price.replace(/[^0-9]/g, '')) * cartItem.quantity;
     }, 0);
 
     // Tính tổng tiền bao gồm phí giao hàng
@@ -33,26 +32,36 @@ export default function CartScreen() {
                 </TouchableOpacity>
                 <View>
                     <Text className='text-center font-bold text-xl'>Your cart</Text>
-                    <Text className='text-center text-gray-500'>{restaurant.name}</Text>
                 </View>
+            </View>
+
+            {/* Delivery time */}
+            <View style={{ backgroundColor: themeColor.bgColor(0.2) }} className='flex-row px-4 items-center mt-3'>
+                <Image source={require('../assets/images/shipper.png')} className='w-20 h-20 rounded-full' />
+                <Text className='flex-1 pl-4 font-semibold'>Giao ngay trong vòng 20-30 phút</Text>
+                <TouchableOpacity>
+                    <Text className='font-bold' style={{color: themeColor.text}}>
+                        Thay đổi
+                    </Text>
+                </TouchableOpacity>
             </View>
 
             {/* Dishes */}
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 50, marginTop: 5 }}
+                contentContainerStyle={{ paddingBottom: 50, marginTop: 15 }}
                 className='bg-white'>
-                {restaurant.dishes.map((dish, index) => {
+                {cart.map((cartItem, index) => {
                     return (
                         <View key={index}
                             className='flex-row items-center py-2 px-4 bg-white rounded-3xl mx-2 my-1 shadow-md'
                             style={{ borderColor: themeColor.bgColor(.2), borderWidth: 1 }}>
                             <Text className='font-bold' style={{ color: themeColor.text, shadowColor: themeColor.bgColor(1) }}>
-                                2 x {' '}
+                                {cartItem.quantity} x {' '}
                             </Text>
-                            <Image source={{ uri: `${API_URL}${dish.image}` }} className='rounded-full' style={{ height: 70, width: 70 }} />
-                            <Text className='flex-1 font-bold text-gray-700 ml-5'>{dish.name}</Text>
-                            <Text className='font-semibold text-base'>{dish.price}</Text>
+                            <Image source={{ uri: `${API_URL}${cartItem.dish.image}` }} className='rounded-full' style={{ height: 70, width: 70 }} />
+                            <Text className='flex-1 font-bold text-gray-700 ml-5'>{cartItem.dish.name}</Text>
+                            <Text className='font-semibold text-base'>{cartItem.dish.price}</Text>
                             <TouchableOpacity
                                 className='p-1 ml-3 rounded-full'
                                 style={{ backgroundColor: themeColor.bgColor(1) }}>
@@ -81,6 +90,7 @@ export default function CartScreen() {
                 </View>
                 <View className='mt-6'>
                     <TouchableOpacity
+                        onPress={() => navigation.navigate('PaymentSuccessOrder')}
                         style={{ backgroundColor: themeColor.bgColor(1) }}
                         className='p-3 rounded-full'>
                         <Text className='text-white text-center font-bold text-lg'>Đặt hàng</Text>

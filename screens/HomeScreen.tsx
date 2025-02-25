@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView } from 'react-native'
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
@@ -10,6 +10,7 @@ import FeaturedRow from '@/components/FeaturedRow';
 import { useAtom } from 'jotai';
 import { productsAtom } from '@/store';
 import { API_URL } from '@env';
+import { useNavigation } from '@react-navigation/native'
 
 export default function HomeScreen() {
     const [products, setProducts] = useAtom(productsAtom);
@@ -17,7 +18,7 @@ export default function HomeScreen() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredByCategory, setFilteredByCategory] = useState(products);
     const [searchResults, setSearchResults] = useState(products);
-    console.log('>>> Check env: ', API_URL);
+    const navigation = useNavigation<any>();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -88,8 +89,10 @@ export default function HomeScreen() {
                         <Text className='text-gray-600 text-sm'>VietNam, HCM</Text>
                     </View>
                 </View>
-                <View style={{ backgroundColor: themeColor.bgColor(1) }} className='p-3 rounded-full'>
-                    <Icon.Sliders height="20" width='20' strokeWidth={2.5} stroke="white" />
+                <View style={{ backgroundColor: 'red' }} className='p-3 rounded-full'>
+                <TouchableOpacity onPress={() => navigation.navigate('Favorite')}>
+                    <Icon.Heart height="20" width='20' strokeWidth={2.5} stroke="white" />
+                </TouchableOpacity>
                 </View>
             </View>
 

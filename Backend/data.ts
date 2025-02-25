@@ -115,7 +115,8 @@ export const featured = [
                         name: 'Macarons',
                         description: 'French classic with various flavors',
                         price: 12,
-                        image: require('../assets/images/dishes/banhTacoz.jpeg')
+                        image: require('../assets/images/dishes/banhTacoz.jpeg'),
+                        favorite: false
                     },
                 ],
             },
@@ -143,21 +144,24 @@ export const featured = [
                         name: 'Avocado Salad',
                         description: 'Fresh avocado with greens and vinaigrette',
                         price: 11,
-                        image: require('../assets/images/dishes/xienQue.jpeg')
+                        image: require('../assets/images/dishes/xienQue.jpeg'),
+                        favorite: false
                     },
                     {
                         id: 8,
                         name: 'Quinoa Bowl',
                         description: 'High-protein bowl with vegetables',
                         price: 13,
-                        image: require('../assets/images/dishes/nuoiSotCaChua.jpeg')
+                        image: require('../assets/images/dishes/nuoiSotCaChua.jpeg'),
+                        favorite: true
                     },
                     {
                         id: 9,
                         name: 'Smoothie',
                         description: 'Refreshing blend of fruits and yogurt',
                         price: 7,
-                        image: require('../assets/images/dishes/cheeseFried.jpeg')
+                        image: require('../assets/images/dishes/cheeseFried.jpeg'),
+                        favorite: false
                     },
                 ],
             },
