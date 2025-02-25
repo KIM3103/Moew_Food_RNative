@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
+const testRoutes = require('./routes/testRoutes');
 
 dotenv.config();
 connectDB();
@@ -15,6 +16,7 @@ app.use(express.json());
 // Cấu hình để phục vụ ảnh tĩnh từ thư mục assets
 app.use('/assets', express.static('assets'));
 
+app.use('/', testRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 
