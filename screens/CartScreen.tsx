@@ -20,6 +20,29 @@ export default function CartScreen() {
     // Tính tổng tiền bao gồm phí giao hàng
     const totalAmount = totalPrice + shippingFee;
 
+    const removeFromCart = (dishId: string) => {
+        setCart((prevCart) => {
+            const updatedCart = prevCart.map(cartItem =>
+                cartItem.dish._id === dishId
+                    ? { ...cartItem, quantity: cartItem.quantity - 1 }
+                    : cartItem
+            ).filter(cartItem => cartItem.quantity > 0);
+
+            if (updatedCart.length === 0) {
+                navigation.goBack();
+            }
+
+            return updatedCart;
+        });
+    };
+
+    const handleOrder = () => {
+        // Xử lý logic đặt hàng
+        navigation.navigate('PaymentSuccessOrder');
+        // Làm trống giỏ hàng
+        setCart([]);
+    };
+
     return (
         <View className='bg-white flex-1'>
             {/* back button */}
@@ -63,6 +86,7 @@ export default function CartScreen() {
                             <Text className='flex-1 font-bold text-gray-700 ml-5'>{cartItem.dish.name}</Text>
                             <Text className='font-semibold text-base'>{cartItem.dish.price}</Text>
                             <TouchableOpacity
+                                onPress={() => removeFromCart(cartItem.dish._id)}
                                 className='p-1 ml-3 rounded-full'
                                 style={{ backgroundColor: themeColor.bgColor(1) }}>
                                 <Icon.Minus strokeWidth={2} height={20} width={20} stroke={'white'} />
@@ -90,7 +114,7 @@ export default function CartScreen() {
                 </View>
                 <View className='mt-6'>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('PaymentSuccessOrder')}
+                        onPress={handleOrder}
                         style={{ backgroundColor: themeColor.bgColor(1) }}
                         className='p-3 rounded-full'>
                         <Text className='text-white text-center font-bold text-lg'>Đặt hàng</Text>

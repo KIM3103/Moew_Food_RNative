@@ -9,7 +9,11 @@ import { API_URL } from '@env';
 
 export default function FavoriteScreen() {
     const navigation = useNavigation<any>();
-    const [favorites] = useAtom(favoriteAtom);
+    const [favorites, setFavorites] = useAtom(favoriteAtom);
+
+    const removeFromFavorites = (dishId: string) => {
+        setFavorites((prevFavorites) => prevFavorites.filter(favItem => favItem._id !== dishId));
+    };
 
     return (
         <View className='bg-white flex-1'>
@@ -39,6 +43,12 @@ export default function FavoriteScreen() {
                             <Image source={{ uri: `${API_URL}${favoriteItem.image}` }} className='rounded-full' style={{ height: 70, width: 70 }} />
                             <Text className='flex-1 font-bold text-gray-700 ml-5'>{favoriteItem.name}</Text>
                             <Text className='font-semibold text-base'>{favoriteItem.price}</Text>
+                            <TouchableOpacity
+                                onPress={() => removeFromFavorites(favoriteItem._id)}
+                                className='p-1 ml-3 rounded-full'
+                                style={{ backgroundColor: 'red' }}>
+                                <Icon.X strokeWidth={2} height={20} width={20} stroke={'white'} />
+                            </TouchableOpacity>
                         </View>
                     )
                 })}
