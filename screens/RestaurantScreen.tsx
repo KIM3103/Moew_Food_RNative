@@ -30,10 +30,10 @@ export default function RestaurantScreen() {
 
     return (
         <View className='bg-white h-screen'>
-            <CartIcon />
+            {/* <CartIcon /> */}
             <ScrollView>
                 <View className='relative'>
-                    {item && <Image source={{ uri: `${API_URL}${item.image}` }} className='w-full h-64' />}
+                    {item && <Image source={{ uri: `${API_URL}${item.image}` }} className='w-full h-48' />}
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         className='absolute top-10 left-4 bg-gray-50 p-2 rounded-full shadow'>

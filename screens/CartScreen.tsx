@@ -3,6 +3,7 @@ import React from 'react'
 import * as Icon from "react-native-feather";
 import { themeColor } from '@/theme'
 import { useNavigation } from '@react-navigation/native'
+import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { cartAtom } from '@/store';
 import { API_URL } from '@env';
@@ -10,6 +11,7 @@ import { API_URL } from '@env';
 export default function CartScreen() {
     const [cart, setCart] = useAtom(cartAtom);
     const navigation = useNavigation<any>();
+    const router = useRouter();
     const shippingFee = 50000;
 
     // Tính tổng giá của các món ăn trong giỏ hàng
@@ -38,7 +40,8 @@ export default function CartScreen() {
 
     const handleOrder = () => {
         // Xử lý logic đặt hàng
-        navigation.navigate('PaymentSuccessOrder');
+        // navigation.push('PaymentSuccessOrder');
+        router.push('/payment-success-order');
         // Làm trống giỏ hàng
         setCart([]);
     };
@@ -99,7 +102,7 @@ export default function CartScreen() {
             {/* Total */}
             <View
                 style={{ backgroundColor: themeColor.bgColor(0.2) }}
-                className='p-6 px-8 rounded-t-3xl space-y-4'>
+                className='p-6 px-8 rounded-t-3xl space-y-4 pb-28'>
                 <View className='flex-row justify-between'>
                     <Text className='text-gray-700'>Thành tiền</Text>
                     <Text className='text-gray-700'>{totalPrice.toLocaleString()} VNĐ</Text>

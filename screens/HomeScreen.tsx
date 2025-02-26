@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, ScrollView, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
@@ -75,7 +75,7 @@ export default function HomeScreen() {
         <SafeAreaView className='bg-white flex-1'>
             <StatusBar style="dark" />
             {/* Search bar */}
-            <View className='flex-row items-center space-x-2 px-4 pb-2 gap-2'>
+            <View className='flex-row items-center space-x-2 px-3 pb-2 gap-2'>
                 <View className='flex-row items-center p-2 rounded-full border border-gray-300 flex-1'>
                     <Icon.Search height='25' width='25' stroke='gray' />
                     <TextInput
@@ -89,10 +89,10 @@ export default function HomeScreen() {
                         <Text className='text-gray-600 text-sm'>VietNam, HCM</Text>
                     </View>
                 </View>
-                <View style={{ backgroundColor: 'red' }} className='p-3 rounded-full'>
-                <TouchableOpacity onPress={() => navigation.navigate('Favorite')}>
-                    <Icon.Heart height="20" width='20' strokeWidth={2.5} stroke="white" />
-                </TouchableOpacity>
+                <View className='rounded-full'>
+                    <Image
+                        source={require('../assets/images/cat_ava.jpg')}
+                        style={{ width: 50, height: 50, borderRadius: 100 }} />
                 </View>
             </View>
 

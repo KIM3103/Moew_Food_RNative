@@ -14,5 +14,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-, "app/+not-found.tsx", "app/_layout.tsx", "app/index.tsx", "app/(tabs)/_layout.tsx"  ]
+, "app/cart.tsx", "app/_layout.tsx", "app/index.tsx", "app/(tabs)/_layout.tsx", "assets/icons.js"  ]
 }

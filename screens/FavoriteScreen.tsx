@@ -42,7 +42,6 @@ export default function FavoriteScreen() {
                             style={{ borderColor: themeColor.bgColor(.2), borderWidth: 1 }}>
                             <Image source={{ uri: `${API_URL}${favoriteItem.image}` }} className='rounded-full' style={{ height: 70, width: 70 }} />
                             <Text className='flex-1 font-bold text-gray-700 ml-5'>{favoriteItem.name}</Text>
-                            <Text className='font-semibold text-base'>{favoriteItem.price}</Text>
                             <TouchableOpacity
                                 onPress={() => removeFromFavorites(favoriteItem._id)}
                                 className='p-1 ml-3 rounded-full'

@@ -47,7 +47,7 @@ export default function Categories({ onSelectCategory }: CategoriesProps) {
                     let textClass = isActive ? 'font-semibold text-gray-800' : 'text-gray-500';
 
                     return (
-                        <View key={index} className='flex justify-between items-center mr-6'>
+                        <View key={index} className='flex justify-between items-center mr-6 mt-3'>
                             <TouchableOpacity onPress={() => handleCategoryPress(category.name)}
                                 className={'p-1 rounded-full shadow bg-gray-200' + btnClass}>
                                 <Image style={{ width: 45, height: 45 }} source={{ uri: `${API_URL}${category.image}` }} />
