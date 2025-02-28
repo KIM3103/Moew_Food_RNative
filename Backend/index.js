@@ -7,6 +7,7 @@ const productRoutes = require('./routes/productRoutes');
 const testRoutes = require('./routes/testRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
 
 dotenv.config();
 connectDB();
@@ -24,6 +25,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/favorites", favoriteRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
