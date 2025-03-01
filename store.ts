@@ -42,6 +42,34 @@ export type CartItem = {
     quantity: number;
 };
 
+// login responese
+// {
+//     "success": true,
+//     "message": "Đăng nhập thành công!",
+//     "user": {
+//         "_id": "67c314ba48e3869e6f1291f7",
+//         "username": "kim",
+//         "email": "kim@gmail.com",
+//         "password": "123456",
+//         "avatar": "",
+//         "location": "",
+//         "bio": "",
+//         "favoriteDishes": [],
+//         "__v": 0
+//     }
+// }
+
+export type User = {
+    _id: string;
+    username: string;
+    email: string;
+    password: string;
+    avatar: string;
+    location: string;
+    bio: string;
+    favoriteDishes: Dish[];
+};
+
 // Atom lưu danh sách danh mục
 export const categoriesAtom = atom<Category[]>([])
 
@@ -53,4 +81,7 @@ export const cartAtom = atom<CartItem[]>([]);
 
 // Atom lưu danh sách yêu thích
 export const favoriteAtom = atom<Dish[]>([]);
+
+// Atom lưu thông tin người dùng
+export const userAtom = atom<User | null>(null);
 

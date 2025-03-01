@@ -1,14 +1,16 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { themeColor } from '@/theme'
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
+import React from 'react';
+import { themeColor } from '@/theme';
 import * as Icon from "react-native-feather";
 import { API_URL } from '@env';
 import { useAtom } from 'jotai';
-import { cartAtom, favoriteAtom } from '@/store';
+import { cartAtom, favoriteAtom, userAtom } from '@/store';
+import axios from 'axios';
 
 export default function DishRow({ item }: any) {
     const [cart, setCart] = useAtom(cartAtom);
     const [favorites, setFavorites] = useAtom(favoriteAtom);
+    const [user] = useAtom(userAtom);
 
     const addToCart = () => {
         setCart((prevCart) => {
@@ -40,15 +42,37 @@ export default function DishRow({ item }: any) {
         });
     };
 
-    const toggleFavorite = () => {
-        setFavorites((prevFavorites) => {
-            const isFavorite = prevFavorites.some(favItem => favItem._id === item._id);
+    const toggleFavorite = async () => {
+        if (!user) {
+            Alert.alert('Lỗi', 'Bạn cần đăng nhập để sử dụng tính năng này!');
+            return;
+        }
+
+        const isFavorite = favorites.some(favItem => favItem._id === item._id);
+        const url = `${API_URL}/api/favorites/${user._id}/${item._id}`;
+
+        try {
             if (isFavorite) {
-                return prevFavorites.filter(favItem => favItem._id !== item._id);
+                const response = await axios.delete(url);
+                if (response.status === 200) {
+                    setFavorites((prevFavorites) => prevFavorites.filter(favItem => favItem._id !== item._id));
+                } else {
+                    console.error('Lỗi khi xóa yêu thích:', response.data);
+                    Alert.alert('Lỗi', 'Đã xảy ra lỗi khi xóa yêu thích, vui lòng thử lại!');
+                }
             } else {
-                return [...prevFavorites, item];
+                const response = await axios.post(url);
+                if (response.status === 200) {
+                    setFavorites((prevFavorites) => [...prevFavorites, item]);
+                } else {
+                    console.error('Lỗi khi thêm yêu thích:', response.data);
+                    Alert.alert('Lỗi', 'Đã xảy ra lỗi khi thêm yêu thích, vui lòng thử lại!');
+                }
             }
-        });
+        } catch (error) {
+            console.error('Lỗi khi cập nhật yêu thích:', error);
+            Alert.alert('Lỗi', 'Đã xảy ra lỗi khi cập nhật yêu thích, vui lòng thử lại!');
+        }
     };
 
     const quantity = cart.find(cartItem => cartItem.dish._id === item._id)?.quantity || 0;

@@ -1,9 +1,7 @@
-import Navigation from '@/navigation';
-import "../../global.css";
-import 'expo-router/entry'
+import IndexScreen from '@/screens/IndexScreen';
 
 export default function App() {
     return (
-        <Navigation />
+        <IndexScreen />
     );
 }

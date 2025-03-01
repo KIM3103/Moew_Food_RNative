@@ -3,7 +3,7 @@ const User = require("../models/User");
 // 📌 Đăng ký User
 exports.register = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { username, email, password } = req.body;
 
         // Kiểm tra email đã tồn tại chưa
         const existingUser = await User.findOne({ email });
@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
         }
 
         // Tạo user mới
-        const newUser = new User({ email, password });
+        const newUser = new User({ username, email, password });
         await newUser.save();
 
         res.status(201).json({ success: true, message: "Đăng ký thành công!", user: { email } });

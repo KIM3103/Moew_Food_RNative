@@ -1,18 +1,39 @@
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
+import React from 'react';
 import * as Icon from "react-native-feather";
-import { themeColor } from '@/theme'
-import { useNavigation } from '@react-navigation/native'
+import { themeColor } from '@/theme';
+import { useNavigation } from '@react-navigation/native';
 import { useAtom } from 'jotai';
-import { favoriteAtom } from '@/store';
+import { favoriteAtom, userAtom } from '@/store';
 import { API_URL } from '@env';
+import axios from 'axios';
 
 export default function FavoriteScreen() {
     const navigation = useNavigation<any>();
     const [favorites, setFavorites] = useAtom(favoriteAtom);
+    const [user] = useAtom(userAtom);
 
-    const removeFromFavorites = (dishId: string) => {
-        setFavorites((prevFavorites) => prevFavorites.filter(favItem => favItem._id !== dishId));
+    const removeFromFavorites = async (dishId: string) => {
+        if (!user) {
+            Alert.alert('Lỗi', 'Bạn cần đăng nhập để sử dụng tính năng này!');
+            return;
+        }
+
+        const url = `${API_URL}/api/favorites/${user._id}/${dishId}`;
+
+        try {
+            const response = await axios.delete(url);
+            if (response.status === 200) {
+                setFavorites((prevFavorites) => prevFavorites.filter(favItem => favItem._id !== dishId));
+                Alert.alert('Thành công', 'Đã xóa món ăn khỏi danh sách yêu thích!');
+            } else {
+                console.error('Lỗi khi xóa yêu thích:', response.data);
+                Alert.alert('Lỗi', 'Đã xảy ra lỗi khi xóa yêu thích, vui lòng thử lại!');
+            }
+        } catch (error) {
+            console.error('Lỗi khi xóa yêu thích:', error);
+            Alert.alert('Lỗi', 'Đã xảy ra lỗi khi xóa yêu thích, vui lòng thử lại!');
+        }
     };
 
     return (

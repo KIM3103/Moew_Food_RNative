@@ -3,9 +3,9 @@ const User = require("../models/User");
 // 📌 Lấy thông tin profile (ẩn password)
 exports.getUserProfile = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { email } = req.params;
 
-        // Tìm user theo ID
+        // Tìm user theo email
         const user = await User.findById(userId).select("-password"); // Ẩn password
         if (!user) {
             return res.status(404).json({ success: false, message: "User không tồn tại!" });
@@ -21,11 +21,12 @@ exports.getUserProfile = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
     try {
         const { userId } = req.params;
-        const { location, bio } = req.body;
+        const { username, location, bio } = req.body;
         let avatar = req.file ? `/uploads/${req.file.filename}` : undefined;
 
         // Chỉ cập nhật các trường được gửi lên (không cập nhật email)
         const updatedFields = {};
+        if (username !== undefined) updatedFields.username = username;
         if (location !== undefined) updatedFields.location = location;
         if (bio !== undefined) updatedFields.bio = bio;
         if (avatar !== undefined) updatedFields.avatar = avatar;

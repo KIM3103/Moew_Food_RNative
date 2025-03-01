@@ -1,8 +1,35 @@
-import React from 'react'
-import { Tabs } from 'expo-router'
+import { useEffect, useState } from 'react'
+import { Tabs, useRouter } from 'expo-router'
 import TabBar from '@/components/TabBar'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const _layout = () => {
+    const router = useRouter()
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            const token = await AsyncStorage.getItem('userToken');
+            setIsLoggedIn(!!token);
+        };
+
+        checkLoginStatus();
+    }, []);
+
+    useEffect(() => {
+        if (isLoggedIn === null) return;
+
+        const timeout = setTimeout(() => {
+            if (isLoggedIn) {
+                router.replace("/");
+            } else {
+                router.replace("/welcome");
+            }
+        }, 0); // Đợi 1 tick để RootLayout mount hoàn chỉnh
+
+        return () => clearTimeout(timeout); // Dọn dẹp timeout khi component unmount
+    }, [isLoggedIn]);
+
     return (
         <Tabs
             tabBar={props => <TabBar {...props} />}

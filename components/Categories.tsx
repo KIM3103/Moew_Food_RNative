@@ -19,7 +19,6 @@ export default function Categories({ onSelectCategory }: CategoriesProps) {
             try {
                 const response = await fetch(`${API_URL}/api/categories`);
                 const data = await response.json();
-                console.log(">>> Check data categories: ", data);
                 setCategories(data);
             } catch (error) {
                 console.error("Lỗi khi lấy danh mục:", error);
