@@ -42,23 +42,6 @@ export type CartItem = {
     quantity: number;
 };
 
-// login responese
-// {
-//     "success": true,
-//     "message": "Đăng nhập thành công!",
-//     "user": {
-//         "_id": "67c314ba48e3869e6f1291f7",
-//         "username": "kim",
-//         "email": "kim@gmail.com",
-//         "password": "123456",
-//         "avatar": "",
-//         "location": "",
-//         "bio": "",
-//         "favoriteDishes": [],
-//         "__v": 0
-//     }
-// }
-
 export type User = {
     _id: string;
     username: string;
@@ -68,6 +51,20 @@ export type User = {
     location: string;
     bio: string;
     favoriteDishes: Dish[];
+};
+
+export type Invoice = {
+    _id: string;
+    user: string;
+    items: {
+        dish: Dish;
+        quantity: number;
+        price: number;
+    }[];
+    totalPrice: number;
+    deliveryFee: number;
+    totalALL: number;
+    createdAt: string;
 };
 
 // Atom lưu danh sách danh mục
@@ -84,4 +81,7 @@ export const favoriteAtom = atom<Dish[]>([]);
 
 // Atom lưu thông tin người dùng
 export const userAtom = atom<User | null>(null);
+
+// Atom lưu danh sách hóa đơn
+export const invoicesAtom = atom<Invoice[]>([]);
 

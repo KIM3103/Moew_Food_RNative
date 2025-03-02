@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
+const Dish = require('./models/Dish'); // Thêm dòng này
 
 // Load biến môi trường từ .env
 dotenv.config();
@@ -20,6 +21,18 @@ const categories = [
     { name: 'Thức ăn nhanh', image: '/assets/images/categories/takeout-box.png' },
     { name: 'Sinh tố', image: '/assets/images/categories/tropical-drink.png' },
     { name: 'Cá', image: '/assets/images/categories/tropical-fish.png' },
+];
+
+const dishes = [
+    { name: 'Cá Chiên Giòn', description: 'Cá chiên giòn sốt chua ngọt', price: '120.000 VNĐ', image: '/assets/images/dishes/caChien.jpeg', favorite: false },
+    { name: 'Cơm Hàn Quốc', description: 'Cơm chuẩn vị Hàn Quốc', price: '220.000 VNĐ', image: '/assets/images/dishes/comKimBap.jpeg', favorite: true },
+    { name: 'Hamburger Thịt', description: 'Hamburger phong cách Mỹ', price: '75.000 VNĐ', image: '/assets/images/dishes/hambugger.jpeg', favorite: false },
+    { name: 'Bánh Socola', description: 'Bánh socola đậm đà và mềm mịn', price: '200.000 VNĐ', image: '/assets/images/dishes/socola-banh.jpg', favorite: true },
+    { name: 'Bánh Cheesecake Dâu', description: 'Bánh cheesecake béo ngậy, hòa quyện với dâu tây', price: '220.000 VNĐ', image: '/assets/images/dishes/BanhCheesecake-Dau.jpg', favorite: false },
+    { name: 'Macaron', description: 'Bánh Macaron kiểu Pháp với nhiều hương vị', price: '300.000 VNĐ', image: '/assets/images/dishes/Macaron.jpg', favorite: true },
+    { name: 'Salad Bơ', description: 'Salad bơ tươi với rau xanh và sốt dầu giấm', price: '250.000 VNĐ', image: '/assets/images/dishes/Salad-Bo.jpg', favorite: false },
+    { name: 'Tô Quinoa', description: 'Tô quinoa giàu protein với rau củ', price: '280.000 VNĐ', image: '/assets/images/dishes/To-Quinoa.png', favorite: true },
+    { name: 'Sinh Tố', description: 'Sinh tố trái cây kết hợp với sữa chua', price: '150.000 VNĐ', image: '/assets/images/dishes/Sinh-To.jpeg', favorite: false },
 ];
 
 const featured = [
@@ -96,9 +109,11 @@ const importData = async () => {
     try {
         await Category.deleteMany();
         await Product.deleteMany();
+        await Dish.deleteMany(); // Thêm dòng này
 
         await Category.insertMany(categories);
         await Product.insertMany(featured);
+        await Dish.insertMany(dishes); // Thêm dòng này
 
         console.log('✅ Dữ liệu mẫu đã được nhập thành công!');
         process.exit();

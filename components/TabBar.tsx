@@ -54,7 +54,7 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                         onPress={onPress}
                         onLongPress={onLongPress}
                         isFocused={isFocused}
-                        routeName={route.name as 'index' | 'cart' | 'favorite' | 'profile'}
+                        routeName={route.name as 'index' | 'cart' | 'bill' |'favorite' | 'profile'}
                         color={isFocused ? primaryColor : greyColor}
                         label={label}
                         totalQuantity={route.name === 'cart' ? totalQuantity : undefined} // Truyền totalQuantity
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: themeColor.bgColor(.98),
+        backgroundColor: themeColor.bgColor(.8),
         marginHorizontal: 20,
         paddingVertical: 8,
         borderRadius: 25,

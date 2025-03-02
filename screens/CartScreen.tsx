@@ -1,15 +1,17 @@
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
+import React from 'react';
 import * as Icon from "react-native-feather";
-import { themeColor } from '@/theme'
-import { useNavigation } from '@react-navigation/native'
+import { themeColor } from '@/theme';
+import { useNavigation } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { cartAtom } from '@/store';
+import { cartAtom, userAtom } from '@/store';
 import { API_URL } from '@env';
+import axios from 'axios';
 
 export default function CartScreen() {
     const [cart, setCart] = useAtom(cartAtom);
+    const [user] = useAtom(userAtom);
     const navigation = useNavigation<any>();
     const router = useRouter();
     const shippingFee = 50000;
@@ -38,12 +40,44 @@ export default function CartScreen() {
         });
     };
 
-    const handleOrder = () => {
-        // Xử lý logic đặt hàng
-        // navigation.push('PaymentSuccessOrder');
-        router.push('/payment-success-order');
-        // Làm trống giỏ hàng
-        setCart([]);
+    const handleOrder = async () => {
+        if (!user) {
+            Alert.alert('Lỗi', 'Bạn cần đăng nhập để sử dụng tính năng này!');
+            return;
+        }
+
+        const items = cart.map(cartItem => ({
+            dish: cartItem.dish._id,
+            quantity: cartItem.quantity,
+            price: parseInt(cartItem.dish.price.replace(/[^0-9]/g, ''))
+        }));
+
+        try {
+            const response = await axios.post(`${API_URL}/api/invoices/${user._id}`, {
+                items,
+                deliveryFee: shippingFee,
+                totalPrice,
+                totalALL: totalAmount
+            });
+
+            if (response.status === 201) {
+                Alert.alert('Thành công', 'Đơn hàng của bạn đã được đặt thành công!', [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            setCart([]);
+                            router.push('/payment-success-order');
+                        }
+                    }
+                ]);
+            } else {
+                console.error('Lỗi khi đặt hàng:', response.data);
+                Alert.alert('Lỗi', 'Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại!');
+            }
+        } catch (error) {
+            console.error('Lỗi khi đặt hàng:', error);
+            Alert.alert('Lỗi', 'Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại!');
+        }
     };
 
     return (
@@ -117,8 +151,8 @@ export default function CartScreen() {
                 </View>
                 <View className='mt-6'>
                     <TouchableOpacity
-                        onPress={handleOrder}
-                        style={{ backgroundColor: themeColor.bgColor(1) }}
+                        onPress={cart.length > 0 ? handleOrder : null}
+                        style={{ backgroundColor: cart.length > 0 ? themeColor.bgColor(1) : 'gray' }}
                         className='p-3 rounded-full'>
                         <Text className='text-white text-center font-bold text-lg'>Đặt hàng</Text>
                     </TouchableOpacity>

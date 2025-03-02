@@ -90,7 +90,7 @@ export default function DishRow({ item }: any) {
 
                 <View className='flex-row justify-between pl-3 items-center mt-3'>
                     <Text className='text-gray-700 text-xl font-bold'>
-                        $ {item.price}
+                        <Icon.DollarSign stroke={'black'} strokeWidth={2} height={20} width={20} />{item.price}
                     </Text>
                     <View className='flex-row items-center'>
                         <TouchableOpacity

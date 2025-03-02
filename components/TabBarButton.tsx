@@ -6,7 +6,7 @@ import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring } f
 interface TabBarButtonProps {
     isFocused: boolean;
     label: string;
-    routeName: 'index' | 'cart' | 'favorite' | 'profile';
+    routeName: 'index' | 'cart' | 'bill' |'favorite' | 'profile';
     color: string;
     onPress: () => void;
     onLongPress: () => void;

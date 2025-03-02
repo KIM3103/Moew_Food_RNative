@@ -11,6 +11,7 @@ const InvoiceSchema = new mongoose.Schema({
     ],
     totalPrice: { type: Number, required: true },
     deliveryFee: { type: Number, required: true },
+    totalALL: { type: Number, required: true },
     createdAt: { type: Date, default: Date.now }
 });
 

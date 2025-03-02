@@ -1,21 +1,20 @@
 const Invoice = require('../models/Invoice');
 const User = require('../models/User');
 const Product = require('../models/Product');
-const Dish = require('../models/Dish'); // Thêm dòng này
+const Dish = require('../models/Dish');
+
 
 exports.createInvoice = async (req, res) => {
     try {
         const { userId } = req.params;
-        const { items, deliveryFee } = req.body;
+        const { items, deliveryFee, totalPrice, totalALL } = req.body;
 
-        // Tính tổng giá tiền
-        let totalPrice = 0;
+        // Kiểm tra sự tồn tại của các món ăn
         for (const item of items) {
             const dish = await Dish.findById(item.dish);
             if (!dish) {
                 return res.status(404).json({ success: false, message: 'Dish không tồn tại!' });
             }
-            totalPrice += item.quantity * item.price;
         }
 
         // Tạo hóa đơn mới
@@ -23,7 +22,8 @@ exports.createInvoice = async (req, res) => {
             user: userId,
             items,
             totalPrice,
-            deliveryFee
+            deliveryFee,
+            totalALL
         });
 
         await newInvoice.save();
