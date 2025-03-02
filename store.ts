@@ -67,6 +67,13 @@ export type Invoice = {
     createdAt: string;
 };
 
+// Kiểu dữ liệu cho khoảng cách và thời gian di chuyển
+// 2 min/km
+export type TravelDistance = {
+    distance: number;
+    duration: number;
+};
+
 // Atom lưu danh sách danh mục
 export const categoriesAtom = atom<Category[]>([])
 
@@ -84,4 +91,7 @@ export const userAtom = atom<User | null>(null);
 
 // Atom lưu danh sách hóa đơn
 export const invoicesAtom = atom<Invoice[]>([]);
+
+// Atom lưu khoảng cách và thời gian di chuyển
+export const travelDistanceAtom = atom<TravelDistance | null>(null);
 

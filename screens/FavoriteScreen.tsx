@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Icon from "react-native-feather";
 import { themeColor } from '@/theme';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,32 @@ export default function FavoriteScreen() {
     const navigation = useNavigation<any>();
     const [favorites, setFavorites] = useAtom(favoriteAtom);
     const [user] = useAtom(userAtom);
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (!user) {
+                Alert.alert('Lỗi', 'Bạn cần đăng nhập để sử dụng tính năng này!');
+                return;
+            }
+
+            const url = `${API_URL}/api/favorites/${user._id}`;
+
+            try {
+                const response = await axios.get(url);
+                if (response.status === 200) {
+                    setFavorites(response.data.dishes);
+                } else {
+                    console.error('Lỗi khi lấy danh sách yêu thích:', response.data);
+                    Alert.alert('Lỗi', 'Đã xảy ra lỗi khi lấy danh sách yêu thích, vui lòng thử lại!');
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách yêu thích:', error);
+                Alert.alert('Lỗi', 'Đã xảy ra lỗi khi lấy danh sách yêu thích, vui lòng thử lại!');
+            }
+        };
+
+        fetchFavorites();
+    }, [user]);
 
     const removeFromFavorites = async (dishId: string) => {
         if (!user) {
@@ -35,6 +61,14 @@ export default function FavoriteScreen() {
             Alert.alert('Lỗi', 'Đã xảy ra lỗi khi xóa yêu thích, vui lòng thử lại!');
         }
     };
+
+    if (!favorites) {
+        return (
+            <View className='bg-white flex-1 justify-center items-center'>
+                <Text className='text-gray-500'>Không có dữ liệu yêu thích</Text>
+            </View>
+        );
+    }
 
     return (
         <View className='bg-white flex-1'>

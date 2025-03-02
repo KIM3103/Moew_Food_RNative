@@ -5,21 +5,24 @@ import { themeColor } from '@/theme';
 import { useNavigation } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { cartAtom, userAtom } from '@/store';
+import { cartAtom, userAtom, travelDistanceAtom } from '@/store';
 import { API_URL } from '@env';
 import axios from 'axios';
 
 export default function CartScreen() {
     const [cart, setCart] = useAtom(cartAtom);
     const [user] = useAtom(userAtom);
+    const [travelDistance, setTravelDistance] = useAtom(travelDistanceAtom);
     const navigation = useNavigation<any>();
     const router = useRouter();
-    const shippingFee = 50000;
 
     // Tính tổng giá của các món ăn trong giỏ hàng
     const totalPrice = cart.reduce((total, cartItem) => {
         return total + parseInt(cartItem.dish.price.replace(/[^0-9]/g, '')) * cartItem.quantity;
     }, 0);
+
+    // Tính phí giao hàng dựa trên khoảng cách
+    const shippingFee = travelDistance ? Math.ceil(travelDistance.distance / 1000) * 4000 : 0;
 
     // Tính tổng tiền bao gồm phí giao hàng
     const totalAmount = totalPrice + shippingFee;
@@ -66,6 +69,7 @@ export default function CartScreen() {
                         text: 'OK',
                         onPress: () => {
                             setCart([]);
+                            setTravelDistance(null);
                             router.push('/payment-success-order');
                         }
                     }
@@ -77,6 +81,14 @@ export default function CartScreen() {
         } catch (error) {
             console.error('Lỗi khi đặt hàng:', error);
             Alert.alert('Lỗi', 'Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại!');
+        }
+    };
+
+    const formatDistance = (distance) => {
+        if (distance < 1000) {
+            return `${Math.ceil(distance)} mét`;
+        } else {
+            return `${(distance / 1000).toFixed(1)} km`;
         }
     };
 
@@ -98,8 +110,17 @@ export default function CartScreen() {
             {/* Delivery time */}
             <View style={{ backgroundColor: themeColor.bgColor(0.2) }} className='flex-row px-4 items-center mt-3'>
                 <Image source={require('../assets/images/shipper.png')} className='w-20 h-20 rounded-full' />
-                <Text className='flex-1 pl-4 font-semibold'>Giao ngay trong vòng 20-30 phút</Text>
-                <TouchableOpacity>
+                <Text className='flex-1 pl-4 font-semibold'>
+                    {travelDistance ? (
+                        <>
+                            Giao ngay trong vòng {Math.ceil(travelDistance.duration)} phút{' '}
+                            <Text className='font-normal'>(Quãng đường: {formatDistance(travelDistance.distance)})</Text>
+                        </>
+                    ) : (
+                        'Chọn địa điểm của bạn để giao món'
+                    )}
+                </Text>
+                <TouchableOpacity onPress={() => router.push('/GoogleMapFee')}>
                     <Text className='font-bold' style={{color: themeColor.text}}>
                         Thay đổi
                     </Text>
