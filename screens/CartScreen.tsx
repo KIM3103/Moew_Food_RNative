@@ -172,7 +172,7 @@ export default function CartScreen() {
                 </View>
                 <View className='mt-6'>
                     <TouchableOpacity
-                        onPress={cart.length > 0 ? handleOrder : null}
+                        onPress={cart.length > 0 && travelDistance ? handleOrder : null}
                         style={{ backgroundColor: cart.length > 0 ? themeColor.bgColor(1) : 'gray' }}
                         className='p-3 rounded-full'>
                         <Text className='text-white text-center font-bold text-lg'>Đặt hàng</Text>
